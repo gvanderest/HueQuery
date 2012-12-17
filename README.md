@@ -18,7 +18,7 @@ A basic Hue control framework driven by jQuery. This project is extremely fresh,
 - - Brightness (0 - 255)
 - - Saturation (0-255)
 
-## Wish List / Lower Priority
+# Wish List / Lower Priority
 * Light movement - Two Modes
 * Colour Movement across various lights
  * Single Colour - In a 3-light setup, the first light would fade into the chosen colour, then start to dim while dimming into the second light at an equal rate, until the next light, to the next
