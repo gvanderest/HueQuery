@@ -14,9 +14,9 @@ A basic Hue control framework driven by jQuery. This project is extremely fresh,
 1. Build text fields to be able to input number of bulbs and api hash
 2. Build controls (buttons?) for all HueQuery methods
 3. Build 3 Sliders
-- - Hue (0 - 65535)
-- - Brightness (0 - 255)
-- - Saturation (0-255)
+ 4. Hue (0 - 65535)
+ 5. Brightness (0 - 255)
+ 6. Saturation (0-255)
 
 # Wish List / Lower Priority
 * Light movement - Two Modes
