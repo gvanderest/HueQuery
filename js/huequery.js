@@ -155,12 +155,12 @@ $(function(){
 				'light':light,
 				'bri':255,
 				'on': true,
-				'transitiontime' : 10,
+				'transitiontime' : 1,
 				'success' : function(){ 
 					control.query_light({
 						'light':light,
 						'on' : false,
-						'transitiontime' : 10});
+						'transitiontime' : 1});
 				}
 			});
 			setInterval(this.strobe, 110);
