@@ -1,9 +1,9 @@
 $(function(){
 
-// TODO: Refactor AJAX calls, use query_light
-// TODO: Reconsider method names
-// TODO: jQuery plugin-ize
-// TODO: Moar methodz!
+	// TODO: Refactor AJAX calls, use query_light
+	// TODO: Reconsider method names
+	// TODO: jQuery plugin-ize
+	// TODO: Moar methodz!
 
 	control = {
 		'props' : {
@@ -60,14 +60,15 @@ $(function(){
 				lightQuery += '\"sat\" : ' + options['sat'] + ',';
 			}
 			if ( typeof options['transitiontime'] === 'number' ) {
-				lightQuery += '\"transitiontime\" : ' + options['transitiontime'];
+				lightQuery += '\"transitiontime\" : ' + options['transitiontime'] + ',';
 			}
 			if ( typeof options['success'] === 'function' ) {
 				var success = options['success'];
 			}
 
-			lightQuery = lightQuery.substring(-2, lightQuery.length -1)			
+			lightQuery = lightQuery.substring(0, lightQuery.length -1)			
 			lightQuery += "}";
+			console.log(lightQuery);
 
 			var href = 'http://' + control.props.bridge_ip + '/api/' + control.props.key + '/lights/' + light + '/state';
 
@@ -114,15 +115,14 @@ $(function(){
 		},
 		'random_color' : function(light){
 
-			var seed = Math.floor(Math.random() * 50) + 1
+			var seed = Math.floor(Math.random() * 50) + 1;
 			var hue = seed * 1000;
 
-			$.ajax({
-				url: 'http://192.168.0.19/api/df65439797bb2d7da0d6006af3340a61/lights/' + light + '/state',
-				dataType: 'json',
-				type: 'PUT',
-				data: "{\"hue\": " + hue + ", \"sat\": 255 }"
-			});		
+			var options = {
+				'light' : light,
+				'hue' : hue
+			}
+			this.query_light(options);
 		},
 		'random_all' : function () {
 			var i = 1;
@@ -132,22 +132,20 @@ $(function(){
 			}
 		},
 		'specific_color' : function (light, hue) {
-			$.ajax({
-				url: 'http://192.168.0.19/api/df65439797bb2d7da0d6006af3340a61/lights/' + light + '/state',
-				dataType: 'json',
-				type: 'PUT',
-				data: "{\"hue\": " + hue + ", \"sat\": 255 }"
-			});	
+			var options = {
+				'light' : light,
+				'hue' : hue
+			}
+			this.query_light(options);
 		},
 		'specific_color_all' : function (hue) {
 			var l = 1;
 			while ( l <= this.props.num_lights) {
-				$.ajax({
-					url: 'http://192.168.0.19/api/df65439797bb2d7da0d6006af3340a61/lights/' + l + '/state',
-					dataType: 'json',
-					type: 'PUT',
-					data: "{\"hue\": " + hue + ", \"sat\": 255 }"
-				});		
+			var options = {
+				'hue' : hue,
+				'light' : l
+			}
+			this.query_light(options);
 				l++;
 			}
 		},
@@ -167,24 +165,24 @@ $(function(){
 			});
 			setInterval(this.strobe, 110);
 		},
-		'transition_time' : function (light, hue) {
-			$.ajax({
-				url: 'http://192.168.0.19/api/df65439797bb2d7da0d6006af3340a61/lights/' + light + '/state',
-				dataType: 'json',
-				type: 'PUT',
-				data: "{\"hue\": " + hue + " , \"sat\": 255, \"transitiontime\" : 7 }"
-			});	
+		'transition_time' : function (light, hue, time) {
+			var options = {
+				'light' : light,
+				'hue' : hue,
+				'transitiontime' : time
+			}
+			this.query_light(options);
 		},
 		'transition_time_all' : function (hue, time) {
-			var i = 0;
-			while ( i <= this.props.num_lights) {
-						$.ajax({
-							url: 'http://192.168.0.19/api/df65439797bb2d7da0d6006af3340a61/lights/' + i + '/state',
-							dataType: 'json',
-							type: 'PUT',
-							data: "{\"hue\": " + hue + " , \"sat\": 255, \"transitiontime\" : " + time + "  }"
-						});	
-			i++;
+			var l = 1;
+			var options = {
+				'hue' : hue,
+				'transitiontime' : time
+			}
+			while ( l <= this.props.num_lights) {
+				options.light = l;
+				this.query_light(options);
+				l++;
 			}
 		}
 	}
